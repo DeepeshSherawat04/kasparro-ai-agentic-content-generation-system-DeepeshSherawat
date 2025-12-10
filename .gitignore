@@ -1,18 +1,12 @@
-# Ignore Python bytecode
+# Python cache files
 __pycache__/
 *.pyc
 
-# Ignore Pytest cache
+# pytest cache
 .pytest_cache/
 
-# Ignore virtual environments
+# VSCode or environment folders
+.vscode/
 env/
 venv/
 .venv/
-
-# VSCode settings
-.vscode/
-
-# OS files
-.DS_Store
-Thumbs.db output/*.json
