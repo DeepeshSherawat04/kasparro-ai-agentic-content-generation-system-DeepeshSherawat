@@ -1,0 +1,49 @@
+{
+  "title": "GlowBoost Vitamin C Serum vs RadiancePlus Brightening Serum",
+  "product_a": {
+    "name": "GlowBoost Vitamin C Serum",
+    "concentration": "10% Vitamin C",
+    "skin_type": [
+      "Oily",
+      "Combination"
+    ],
+    "key_ingredients": [
+      "Vitamin C",
+      "Hyaluronic Acid"
+    ],
+    "benefits": [
+      "Brightening",
+      "Fades dark spots"
+    ],
+    "how_to_use": "Apply 2-3 drops in the morning before sunscreen",
+    "side_effects": "Mild tingling for sensitive skin",
+    "price": 699
+  },
+  "product_b": {
+    "name": "RadiancePlus Brightening Serum",
+    "key_ingredients": [
+      "Vitamin C",
+      "Niacinamide"
+    ],
+    "benefits": [
+      "Brightening",
+      "Evens skin tone"
+    ],
+    "price": 749
+  },
+  "ingredient_comparison": {
+    "ingredient_overlap": [
+      "Vitamin C"
+    ],
+    "unique_to_a": [
+      "Hyaluronic Acid"
+    ],
+    "unique_to_b": [
+      "Niacinamide"
+    ]
+  },
+  "summary": {
+    "price_difference": "RadiancePlus Brightening Serum is ₹50 more expensive than GlowBoost Vitamin C Serum.",
+    "ingredient_summary": "Both contain: Vitamin C."
+  }
+}

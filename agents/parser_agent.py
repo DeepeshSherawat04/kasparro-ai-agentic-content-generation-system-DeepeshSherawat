@@ -1,8 +1,4 @@
-"""
-Reads product_input.json and turns it into a Product instance.
-The goal is simply to load the data cleanly and keep the model predictable.
-"""
-
+# agents/parser_agent.py
 from dataclasses import dataclass
 from typing import List
 import json
@@ -22,19 +18,22 @@ class Product:
 
 
 class ProductParserAgent:
-    def __init__(self, file_path="data/product_input.json"):
+    """
+    Loads the product_input.json and returns a Product dataclass.
+    Kept intentionally simple and deterministic.
+    """
+    def __init__(self, file_path: str = "data/product_input.json"):
         self.file_path = Path(file_path)
 
     def run(self) -> Product:
-        # Load the raw JSON and map it to the Product dataclass
-        data = json.loads(self.file_path.read_text(encoding="utf-8"))
+        raw = json.loads(self.file_path.read_text(encoding="utf-8"))
         return Product(
-            name=data["name"],
-            concentration=data["concentration"],
-            skin_type=data["skin_type"],
-            key_ingredients=data["key_ingredients"],
-            benefits=data["benefits"],
-            how_to_use=data["how_to_use"],
-            side_effects=data["side_effects"],
-            price=data["price"],
+            name=raw["name"],
+            concentration=raw["concentration"],
+            skin_type=raw["skin_type"],
+            key_ingredients=raw["key_ingredients"],
+            benefits=raw["benefits"],
+            how_to_use=raw["how_to_use"],
+            side_effects=raw["side_effects"],
+            price=raw["price"],
         )

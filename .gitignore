@@ -1,12 +1,24 @@
-# Python cache files
+# Python
 __pycache__/
 *.pyc
+*.pyo
+.Python
 
-# pytest cache
-.pytest_cache/
-
-# VSCode or environment folders
-.vscode/
+# virtual envs
 env/
 venv/
 .venv/
+
+# Pytest
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local env file
+.env

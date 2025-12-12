@@ -1,78 +1,93 @@
-Kasparro – Agentic Content Generation System
-Author: Deepesh Sherawat
+# Kasparro Agentic Content Generation System  
+### Built with LangChain · Ollama · Modular Logic Blocks
 
-This project is a small demonstration of how an agent-based content pipeline can be organised in a clean, modular way. The idea is straightforward: start with a compact product dataset and generate three separate content pages from it — a FAQ page, a product information page, and a comparison page — all in structured JSON.
+**Author:** Deepesh Sherawat
 
-The focus is on engineering design rather than writing long pieces of content. Most of the thinking went into how the agents interact, how the logic is broken into reusable blocks, and how templates keep the output predictable.
+This project implements a small yet production-style **agentic AI system** using **LangChain**.  
+The system reads a single product JSON file and automatically generates:
 
-How the System Works
+- `faq.json` – Structured FAQ content  
+- `product_page.json` – Detailed product information  
+- `comparison_page.json` – Comparison with a fictional competitor  
 
-The pipeline runs in a few clear steps:
+The design focuses on **modularity**, **tool-assisted reasoning**, and **clean agent boundaries**.  
+All content is generated using **LangChain agents**, not custom scripting, to meet real agentic-framework design expectations.
 
--> ParserAgent
-Reads the raw JSON file and converts it into a typed Product object.
+---
 
--> QuestionGenerationAgent
-Creates a set of user-oriented questions divided into categories.
+## Features
 
--> FAQPageAgent
-Answers those questions using a small rule engine built only on the product data.
+- **True multi-agent workflow** (LangChain agents, not manual orchestration)  
+- **Tool-driven data access** to prevent hallucinations  
+- **Local LLM inference** using *Ollama*  
+- **Deterministic logic blocks** for safety, pricing, usage, benefits, etc.  
+- **Structured JSON outputs** suitable for automation pipelines  
+- **Clear separation of templates, tools, agents, and processing logic**
 
--> ProductPageAgent
-Builds a structured product page by combining several reusable blocks.
+---
 
--> ComparisonPageAgent
-Generates a fictional second product, compares it with the original, and produces a summary.
+## Quick Start
 
--> PipelineOrchestrator
-Runs all the agents in order and writes out the final files.
+1. Create a virtual environment
+```bash
+python -m venv .venv
 
-All generated pages are saved inside the output/ directory:
+2. Activate the environment
+# Windows
+.venv\Scripts\activate
 
--> faq.json
+# macOS/Linux
+source .venv/bin/activate
 
--> product_page.json
+3. Install dependencies
+pip install -r requirements.txt
 
-->comparison_page.json
+4. Make sure Ollama is running
+ollama serve
 
-Running the Project
-
-From the project root, simply run:
-
+5. Run the pipeline
 python main.py
 
+Output Files
 
-Once finished, the output JSON files will appear in the output/ folder.
+After execution, the following files are generated:
 
-Project Structure -
-agents/          → All agents: parser, FAQ, product page, comparison
-blocks/          → Reusable logic blocks
-templates/       → Page templates that define output structure
-orchestrator/    → The main pipeline workflow
-output/          → Generated JSON files
-docs/            → Documentation
-data/            → Input product data
+output/
+│── faq.json
+│── product_page.json
+└── comparison_page.json
 
 
-Each folder has a clear purpose, and no component relies on hidden global state.
+All follow strict machine-readable schemas.
 
-Design Approach -
+Project Structure
+.
+├── agents/
+│   ├── langchain_tools.py      # Tools used by agents
+│   └── parser_agent.py         # Converts input JSON into model
+├── blocks/
+│   ├── product_blocks.py
+│   ├── usage_blocks.py
+│   ├── benefits_blocks.py
+│   └── comparison_blocks.py
+├── orchestrator/
+│   └── pipeline.py             # LangChain-driven agent workflow
+├── data/
+│   └── product_input.json
+├── output/                     # Generated files
+├── tests/
+│   └── test_pipeline.py
+└── requirements.txt
 
-The overall design keeps things simple and reliable:
+ Running Tests
+pytest -q
 
--> Each agent is responsible for a single step.
+ What This Project Demonstrates
 
--> Logic blocks are used instead of hardcoding logic inside agents.
+Clean engineering principles for agent systems
 
--> Templates only define structure, not behaviour.
+Proper usage of LangChain as an orchestration framework
 
--> The system remains deterministic — every output comes strictly from the input dataset.
+Modular & deterministic content generation
 
--> Adding new content types should not require rewriting the existing flow.
-
-This makes the project easy to understand and easier to extend.
-
-Closing Notes:
-
-The project is intentionally lightweight, but the structure resembles what you would expect from a real-world automated content system. The emphasis was on clarity and modularity rather than over-engineering or creating overly complex abstractions.
-With more time, I would consider adding caching, per-block unit tests, and configuration options, but for the scope of this assignment, the system demonstrates the core ideas well.
+Realistic architecture similar to production-ready AI pipelines

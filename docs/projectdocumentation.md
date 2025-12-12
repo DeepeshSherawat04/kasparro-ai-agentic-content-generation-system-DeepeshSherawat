@@ -1,132 +1,143 @@
-Kasparro – Applied AI Agentic Content Generation System
-Author: Deepesh Sherawat
+# Kasparro – Agentic Content Generation System  
+### Technical Documentation  
+**Author:** Deepesh Sherawat  
 
-1. Problem Statement
+This document explains the architecture, design decisions, and workflow behind the agentic content generation system built using **LangChain** and **Ollama**.
 
-The task was to design a modular system that takes a small structured product dataset and generates three different content pages from it:
+---
 
--> a FAQ page
+## 1. Objective
 
--> a product information page
+The goal is to convert a single structured product dataset into:
 
--> a comparison page
+1. A FAQ page  
+2. A detailed product information page  
+3. A product comparison page  
 
-All outputs must be machine-readable JSON, and the system should rely on small, reusable logic blocks instead of long prompts or manual content.
+All outputs must be:
 
-The goal is to show how an AI-driven content pipeline can be organised in a maintainable and extensible way — similar to how such systems are built in production environments.
+- JSON formatted  
+- Built using **multiple agents**, not a linear script  
+- Created using **LangChain tools + model reasoning**  
+- Supported by deterministic logic blocks  
 
-The assignment prioritises system design and structure, not marketing copy.
+The emphasis is on **engineering clarity and real-world agentic design**, not marketing copy.
 
-2. Scope & Assumptions
+---
 
-To keep the design focused and deterministic, the work follows a few constraints:
+## 2. System Constraints & Assumptions
 
--> Only the provided product data can be used; no external research or hidden rules.
+To keep the workflow controlled and deterministic:
 
--> Product B (used in the comparison page) must be fictional but follow the same structure as Product A.
+- Only data from `product_input.json` can be used  
+- Product B must be fictional but follow the same schema  
+- Agents must remain modular and independent  
+- Tools expose factual blocks (overview, usage, pricing, benefits, etc.)  
+- LLMs must only orchestrate reasoning, not fabricate facts  
 
--> Each page is generated through a combination of templates and logic blocks.
+These constraints match real-world expectations for safe and reliable product-content generation systems.
 
--> No agent shares global state; data flows sequentially.
+---
 
--> The system should remain easy to extend for new product types or additional pages.
+## 3. System Overview
 
-These boundaries shape a clean, predictable pipeline.
+The complete system consists of **five agents**, **logic blocks**, and **tools**, coordinated via a LangChain-driven pipeline.
 
-3. Solution Overview
+### Workflow Summary
 
-The solution uses a multi-agent workflow where each agent has a single clear responsibility. Data flows from one step to the next in a controlled manner.
+- **ParserAgent**  
+  Converts JSON → Product model
 
-Summary of the workflow:
+- **QuestionGenerationAgent**  
+  Uses the LLM to create grouped user questions
 
--> ParserAgent
-Reads the input JSON and converts it into a Product model.
+- **FAQPageAgent**  
+  Answers questions using tools, producing structured Q/A pairs
 
--> QuestionGenerationAgent
-Generates grouped user questions (informational, safety, usage, purchase, and comparison).
+- **ProductPageAgent**  
+  Builds the product page using deterministic logic blocks
 
--> FAQPageAgent
-Creates a complete FAQ page using a deterministic rule engine.
+- **ComparisonPageAgent**  
+  Generates a fictional Product B, compares ingredients, and writes a structured summary
 
--> ProductPageAgent
-Builds the product page using modular logic blocks (overview, benefits, usage, pricing, etc.).
+- **PipelineOrchestrator**  
+  Connects all agents and writes JSON outputs
 
--> ComparisonPageAgent
-Creates a fictional Product B, compares both products, and generates a short summary.
+This modularity ensures maintainability, testability, and clarity.
 
--> PipelineOrchestrator
-Connects all agents, runs the pipeline, and writes the output files.
+---
 
-This avoids a monolithic design and keeps the project easy to test and maintain.
+## 4. Architecture Diagram
 
-4. System Design
-4.1 High-Level Architecture Diagram
+```mermaid
 flowchart TD
     A[product_input.json] --> B[ParserAgent]
     B --> C[QuestionGenerationAgent]
-    B --> D[ProductPageAgent]
     C --> E[FAQPageAgent]
+
+    B --> D[ProductPageAgent]
     B --> F[ComparisonPageAgent]
 
     D --> O1[product_page.json]
     E --> O2[faq.json]
     F --> O3[comparison_page.json]
+The design enforces strict, one-directional data flow.
 
+5. Agent  Responsibilities
+Agent	                          Purpose
+ParserAgent	             ->     Reads and validates product JSON, outputs Product model
+QuestionGenerationAgent	 ->     Produces categorized questions (informational, usage, safety, purchase, comparison)
+FAQPageAgent	           ->     Answers questions using deterministic blocks through tools
+ProductPageAgent	       ->     Builds a structured product page
+ComparisonPageAgent	     ->     Creates Product B; performs ingredient-level comparison
+PipelineOrchestrator	   ->     Runs the multi-agent pipeline end-to-end
 
-This diagram captures how information moves through the system.
-Each agent receives the minimum required data and outputs a structured result.
+Each agent follows the Single Responsibility Principle.
 
-4.2 Agent Responsibilities
-Agent	                              Responsibility
-ParserAgent	               ->       Convert raw JSON into a Product model
-QuestionGenerationAgent	   ->       Produce categorized user questions
-FAQPageAgent	             ->       Answer questions using rule-based logic
-ProductPageAgent	         ->       Assemble a structured product page
-ComparisonPageAgent	       ->       Create Product B and compare both products
-PipelineOrchestrator	     ->       Run all agents and write JSON outputs
-
-Keeping these roles strict helps maintain a predictable workflow.
-
-4.3 Logic Blocks
-
-Logic blocks are small functions that each handle one transformation.
-Examples include:
+6. Logic Blocks
+Logic blocks are deterministic functions such as:
 
 -> build_overview_block()
 
 -> build_ingredients_block()
 
+-> build_benefits_block()
+
+-> build_safety_block()
+
 -> build_pricing_block()
 
 -> compare_ingredients_block()
 
--> answer_question_block()
+They help ensure:
 
-This approach prevents duplication and supports future extensions.
+-> No hallucinations
 
-4.4 Templates
+-> Predictable output
 
-Each output page has its own template class.
-Templates define the structure of the output, while logic blocks fill in the contents.
+-> Reusability across agents
 
-Separating structure from logic improves readability and makes it easier to evolve the system.
+-> Clear separation of computation vs. structure
 
-5. Data & Output Structure
+7. Templates
+Each output JSON page has a predefined structure.
+Agents fill these templates using logic blocks + tool calls.
 
-Each output file follows a clear JSON schema.
-
--> FAQ Format
+-> FAQ Template
+json
 {
   "title": "",
   "sections": [
     {
       "category": "",
-      "items": [{"question": "", "answer": ""}]
+      "items": [
+        {"question": "", "answer": ""}
+      ]
     }
   ]
 }
-
--> Product Page Format
+-> Product Page Template
+json
 {
   "title": "",
   "overview": {},
@@ -136,8 +147,8 @@ Each output file follows a clear JSON schema.
   "safety": {},
   "pricing": {}
 }
-
--> Comparison Page Format
+-> Comparison Page Template
+json
 {
   "title": "",
   "product_a": {},
@@ -145,14 +156,40 @@ Each output file follows a clear JSON schema.
   "ingredient_comparison": {},
   "summary": {}
 }
+8. Key Engineering Principles Demonstrated
+Use of frameworks over custom orchestration
+(LangChain agents instead of hand-written workflows)
 
-6. Conclusion
+Tool-driven factuality
+Ensures product details never deviate from allowed data
 
-The system follows a simple but solid architecture.
-Every part of the workflow has been separated into clear responsibilities.
-Logic blocks keep transformations reusable, and templates ensure that output remains structured.
+Strict JSON-structured outputs
+Ideal for downstream automation
 
-The result is a small yet realistic agentic content generation system that turns a minimal dataset into clean, well-structured JSON pages.
-It is easy to follow, easy to modify, and a practical foundation for more advanced automation pipelines.
+Clear modularization
+Parses → Generates Questions → Answers → Builds Pages → Compares Products
 
-***END***
+Extensibility
+New tools, agents, and page types can be added easily
+
+Testability
+Deterministic logic blocks allow unit testing without relying on LLM outputs
+
+9. Conclusion
+This project demonstrates an engineered, modular, and agentic approach to product content generation.
+By combining:
+
+LangChain agents
+
+Deterministic logic blocks
+
+Structured templates
+
+Local LLM execution (Ollama)
+
+the system achieves a clean, scalable architecture suitable for production-like environments.
+
+It is simple to follow, easy to extend, and meets the expectations of the Kasparro team regarding agent frameworks, tool use, and clean architecture.
+
+END
+

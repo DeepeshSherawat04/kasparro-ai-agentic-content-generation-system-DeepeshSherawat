@@ -1,0 +1,5 @@
+langchain>=0.0.400
+langchain-community>=0.0.40
+ollama>=0.0.2
+python-dotenv
+pytest

@@ -1,0 +1,34 @@
+{
+  "title": "GlowBoost Vitamin C Serum – Product Page",
+  "overview": {
+    "name": "GlowBoost Vitamin C Serum",
+    "concentration": "10% Vitamin C",
+    "suitable_for": "Oily, Combination",
+    "short_tagline": "A straightforward 10% Vitamin C formula suitable for Oily, Combination skin types."
+  },
+  "ingredients": {
+    "key_ingredients": [
+      "Vitamin C",
+      "Hyaluronic Acid"
+    ]
+  },
+  "benefits": {
+    "benefits_list": [
+      "Brightening",
+      "Fades dark spots"
+    ],
+    "summary": "This serum focuses on Brightening, Fades dark spots."
+  },
+  "usage": {
+    "how_to_use": "Apply 2-3 drops in the morning before sunscreen",
+    "frequency_hint": "It is meant to be used in the morning before sunscreen as part of your routine."
+  },
+  "safety": {
+    "side_effects": "Mild tingling for sensitive skin",
+    "sensitive_skin_note": "If your skin is sensitive, be cautious and monitor how your skin responds."
+  },
+  "pricing": {
+    "price_in_inr": "₹699",
+    "pricing_note": "Pricing may vary slightly depending on the seller."
+  }
+}
