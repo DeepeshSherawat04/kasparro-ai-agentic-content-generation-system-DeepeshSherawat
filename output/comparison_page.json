@@ -1,0 +1,48 @@
+{
+  "page_type": "product_comparison",
+  "title": "GlowBoost Vitamin C Serum vs RadiantGlow Vitamin C Elixir",
+  "subtitle": "Comprehensive comparison to help you choose",
+  "products": {
+    "product_a": {
+      "name": "GlowBoost Vitamin C Serum",
+      "summary": "10% Vitamin C formula for brightening",
+      "price": "₹699"
+    },
+    "product_b": {
+      "name": "RadiantGlow Vitamin C Elixir",
+      "summary": "15% Vitamin C formula for anti-aging",
+      "price": "₹899"
+    }
+  },
+  "comparison_table": [
+    {
+      "aspect": "Price",
+      "product_a": "₹699",
+      "product_b": "₹899",
+      "winner": "product_a"
+    },
+    {
+      "aspect": "Concentration",
+      "product_a": "10% Vitamin C",
+      "product_b": "15% Vitamin C",
+      "winner": "equal"
+    },
+    {
+      "aspect": "Key Ingredients",
+      "product_a": "Vitamin C, Hyaluronic Acid",
+      "product_b": "Vitamin C, Vitamin E, Ferulic Acid",
+      "winner": "equal"
+    },
+    {
+      "aspect": "Skin Type Compatibility",
+      "product_a": "Oily, Combination",
+      "product_b": "Normal, Dry",
+      "winner": "product_a"
+    }
+  ],
+  "recommendation": {
+    "best_for_budget": "GlowBoost Vitamin C Serum",
+    "best_for_oily_skin": "GlowBoost Vitamin C Serum",
+    "best_for_dry_skin": "RadiantGlow Vitamin C Elixir"
+  }
+}
